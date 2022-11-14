@@ -41,34 +41,68 @@ public class ForLoops {
      * it's a vowel (okay if you don't catch all y's that are vowels)
      */
     public void countVowels() {
+        Utility.clearTerminal();
+
         int count = 0;
         List<Character> vowels = new ArrayList<Character>(Arrays.asList(new Character[] { 'A', 'E', 'I', 'O', 'U' }));
 
+        System.out.println("Please Give Me A Word!");
         String word = s.nextLine();
         for (int i = 0; i < word.length(); i++) {
-            if (vowels.contains(Character.toString(word.toUpperCase().charAt(i)))) {
+            if (vowels.contains((word.toUpperCase().charAt(i)))) {
                 count++;
             }
 
         }
+        Utility.printSleepDotsMessage("Number of Vowels: " + count, "Calculating");
 
     }
 
     public void reverseIt() {
-        System.out.println("NO CODE YET!");
+        Utility.clearTerminal();
+
+        System.out.println("Please give me a sentence or word and I will reverse it!");
+        String word = s.nextLine();
+        String tempWord = "";
+
+        for (int i = word.length() - 1; i >= 0; i--) {
+            tempWord += word.charAt(i);
+        }
+        System.out.println(tempWord);
+
     }
 
     public void encrypt() {
-        System.out.println("Give me text to encrypt");
-        String text = s.nextLine();
-        for (int i = 0; i < text.length(); i++) {
-            text = text.substring(0, i) + text.charAt(i + 1) + text.charAt(i)
-                    + text.substring(i + 1, text.length() - 1);
+        Utility.clearTerminal();
+
+        System.out.println("Please give me a sentence or word and I will sort it alphebetical order!");
+        Utility.sleepThread(1);
+
+        String text = s.nextLine().toLowerCase();
+        char[] letters = text.toCharArray();
+        String finalWord = "";
+
+        // Selection Sort Algorithm
+        for (int i = letters.length - 1; i > 0; i--) {
+
+            int largest = 0;
+            for (int j = 1; j <= i; j++) {
+                if (((int) letters[j]) > ((int) letters[largest]))
+                    largest = j;
+            }
+            Utility.swap(letters, largest, i);
+
         }
-        System.out.println(text);
+        for (char letter : letters) {
+            finalWord += letter;
+        }
+        System.out.println(finalWord);
+
     }
 
     public void showBoard() {
+        Utility.clearTerminal();
+
         String[][] board = new String[10][10];
 
         // Every even row
@@ -90,43 +124,75 @@ public class ForLoops {
     }
 
     public void showPrimes() {
-        System.out.println("NO CODE YET!");
+        System.out.println("Please give me a min value:");
+        int min = s.nextInt();
+
+        System.out.println("Please give me a max value:");
+        int max = s.nextInt();
+
+        for (int num = min; num <= max; num++) {
+            boolean isPrime = true;
+
+            if (num != 2) {
+                if (num % 2 == 0)
+                    continue;
+                else {
+                    long end = (long) (Math.sqrt(num) + 1);
+                    for (long divisor = 3; divisor <= end; divisor += 2) {
+                        if (num % divisor == 0) {
+                            isPrime = false;
+                            continue;
+                        }
+
+                    }
+                    if (isPrime)
+                        System.out.println("Prime Number: " + num);
+
+                }
+            }
+        }
+        System.out.println("Scroll up to see prime numbers");
+        Utility.sleepThread(4);
+
     }
 
     public void guessingGame() {
+        Utility.clearTerminal();
+
         int money = 1000;
         int randomStart = ((int) (Math.random() * 1000) + 1);
         int randomEnd = 0;
         int chosenNum = 0;
-        int betAmount;
+        int betAmount = 0;
         int numGuesses = 0;
-
         boolean isPlaying = true;
+
         while (isPlaying) {
             while (randomStart > randomEnd)
                 randomEnd = (int) ((Math.random() * 1000) + 1);
-            System.out.println("RANDOM END" + randomEnd);
+            System.out.println("MAX VALUE: " + randomEnd);
 
             // Select num
             while (randomStart > chosenNum && randomEnd > chosenNum)
                 chosenNum = (int) (Math.random() * randomEnd);
 
-            System.out.println("CHOSEN NUM" + chosenNum);
+            System.out.println("CHOSEN NUM: " + chosenNum);
 
-            System.out.println("Place your bet");
-            betAmount = s.nextInt();
+            do {
+                System.out.println("Please Place Your Bet💸 ");
+                betAmount = s.nextInt();
+            } while (betAmount > money);
 
-            System.out.println("BET AMOUNT");
             System.out.println("The range is from " + randomStart + " - " + randomEnd);
 
-            System.out.println(chosenNum);
-            System.out.println("Give me your guess");
+            System.out.println("Please Give me your guess❔");
             int guess = s.nextInt();
 
             while (guess != chosenNum) {
 
                 if (numGuesses == 3) {
                     System.out.println("Here's a hint");
+                    Utility.sleepThread(1);
                     System.out.println("The number is greater than" + (randomStart + (randomEnd - chosenNum) / 2));
                 }
                 if (numGuesses == 6) {
@@ -144,12 +210,12 @@ public class ForLoops {
                 guess = s.nextInt();
             }
             money += betAmount;
-
+            System.out.println("That's Correct!");
             System.out.println("Remaining Money: $" + money);
 
             isPlaying = Utility.YayOrNay();
 
-            Utility.sleepThread(2);
+            Utility.clearTerminal();
 
         }
     }
@@ -159,17 +225,79 @@ public class ForLoops {
     }
 
     /**
-     * THESE 3 ARE HONORS ONLY:
+     * 
+     * @return count of constonants
      */
+    // I remember this from class
     public void countConsonants() {
-        System.out.println("NO CODE YET!");
+        Utility.clearTerminal();
+
+        System.out.println("Please give me a word!");
+        String word = s.nextLine().toUpperCase();
+
+        System.out.println("Number of Vowels!: " + Utility.numVowels(word));
+
+        System.out.println("Number of Constanents!: " + (word.length() - Utility.numVowels(word)));
+
     }
 
     public void showFancyBoard() {
-        System.out.println("NO CODE YET!");
+        Utility.clearTerminal();
+
+        System.out.println("Please give me the dimensions of the board!");
+        int dimensions = s.nextInt();
+        String[][] board = new String[dimensions][dimensions];
+        String firstChar, secondChar = "";
+
+        // I used a doWhile b/c it doesn't get enough love X0X0 dowhile
+        // jk lol it's just worse than while and for loops
+        do {
+            s.nextLine();
+            System.out.println("Please type a single character on the keyboard");
+            firstChar = s.nextLine();
+
+            System.out.println("Please type ANOTHER😊 single character on the keyboard");
+            secondChar = s.nextLine();
+
+        } while (firstChar.length() > 1 || secondChar.length() > 1);
+
+        // Every even row
+        // Every odd col
+        for (int row = 0; row < board.length; row++) {
+            for (int col = 0; col < board[row].length; col++) {
+                if (col != 0 && row != 0 && dimensions % 2 != 0 && (col == 2 && row == 2)) {
+                    board[row][col] = "ඞ";
+                }
+
+                else if (row % 2 == 0 && col % 2 != 0)
+                    board[row][col] = firstChar;
+
+                else
+                    board[row][col] = secondChar;
+            }
+            for (String s : board[row]) {
+                System.out.print(s + " ");
+            }
+            System.out.println();
+        }
+
     }
 
     public void reverseByWord() {
-        System.out.println("NO CODE YET!");
+        Utility.clearTerminal();
+
+        System.out.println("Give me a sentence!");
+        String sentence = s.nextLine();
+
+        String[] words = sentence.split("\\s+");
+        for (int i = 0; i < words.length; i++) {
+            words[i].toLowerCase();
+            words[i] = Utility.reverseIt((words[i]));
+            words[i] += i + 1 == words.length ? "" : " ";
+        }
+        for (String word : words) {
+            System.out.print(word);
+        }
+        System.out.println();
     }
 }
