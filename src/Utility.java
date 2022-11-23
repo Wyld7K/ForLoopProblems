@@ -144,4 +144,47 @@ public class Utility {
 
     }
 
+    public static void mergeSort(int[] input, int start, int end) {
+        // 1 element arr
+        if (end - start < 2) {
+            return;
+        }
+
+        // Calc mdpt of given arr
+        int mid = (start + end) / 2;
+
+        mergeSort(input, start, mid);
+        mergeSort(input, mid, end);
+
+        // Merge sibling arr
+        merge(input, start, mid, end);
+        System.out.println(Arrays.toString(input));
+
+    }
+
+    public static void merge(int[] input, int start, int mid, int end) {
+        // If last index of left arr is less than the last most value in the first index
+        // then we can just leave the arr alone
+        if (input[mid - 1] >= input[mid])
+            return;
+
+        int i = start; // Left partition index
+        int j = mid; // Right partition index
+        int tempIndex = 0; // Preserve insertion index
+
+        int[] temp = new int[end - start];
+
+        while (i < mid && j < end) {
+            // depending on which value is less, the next index value will be from left or
+            // right arr
+            temp[tempIndex++] = input[i] >= input[j] ? input[i++] : input[j++];
+
+        }
+        // Copy into one arr
+        System.arraycopy(input, i, input, start + tempIndex, mid - i);
+        // Insert into main arr
+        System.arraycopy(temp, 0, input, start, tempIndex);
+
+    }
+
 }

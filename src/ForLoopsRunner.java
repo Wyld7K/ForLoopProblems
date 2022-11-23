@@ -17,6 +17,7 @@ public class ForLoopsRunner {
         int choice = 0;
 
         // keep allowing user to choose until they quit:
+
         while (!done) {
             System.out.print("\nMake a choice (1-10) 0 to quit: ");
 
@@ -28,7 +29,11 @@ public class ForLoopsRunner {
             System.out.print("\n" + list + "Your choice: ");
 
             // get choice number:
-            choice = Integer.parseInt(s.nextLine());
+            try {
+                choice = Integer.parseInt(s.nextLine());
+            } catch (Exception e) {
+                choice = -1;
+            }
 
             // blank line for better readability:
             System.out.println();
@@ -76,6 +81,7 @@ public class ForLoopsRunner {
             }
             System.out.println("Hit ENTER to go back to the main menu...");
             s.nextLine();
+
         }
         s.close();
     }

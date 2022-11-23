@@ -12,11 +12,6 @@ import java.util.Scanner;
  * @version 1.0.0
  */
 public class ForLoops {
-    // NOTE:
-    // 1. You can use a Scanner or JOptionPanes
-    // 2. if using a Scanner user, easiest to use nextLine() and then convert ,
-    // if neccessary
-
     Scanner s;
 
     // constructor:
@@ -25,53 +20,57 @@ public class ForLoops {
 
     }
 
-    ///////////////////////////////////////
-    /*
-     * all the methods
-     */
-
-    /*
-     * Write code that will get a String from the user, counts the number of vowels
-     * in the text, and displays that number. Make sure you count vowels that are
-     * uppercase or lowercase
+    /**
+     * Precondition: None
+     * PostCondition: Prints the number of vowels
      * 
-     * Extension idea (simple): separately report the total of uppercase and of
-     * lowercase of each vowel
-     * Extension idea (medium): use some rule to count y as a vowel when you're sure
-     * it's a vowel (okay if you don't catch all y's that are vowels)
      */
     public void countVowels() {
         Utility.clearTerminal();
 
-        int count = 0;
+        int vowelCount = 0;
         List<Character> vowels = new ArrayList<Character>(Arrays.asList(new Character[] { 'A', 'E', 'I', 'O', 'U' }));
 
         System.out.println("Please Give Me A Word!");
         String word = s.nextLine();
-        for (int i = 0; i < word.length(); i++) {
+
+        for (int i = 0; i < word.length(); i++) { // count num vowels in string
             if (vowels.contains((word.toUpperCase().charAt(i)))) {
-                count++;
+                vowelCount++;
             }
 
         }
-        Utility.printSleepDotsMessage("Number of Vowels: " + count, "Calculating");
+        Utility.printSleepDotsMessage("Number of Vowels: " + vowelCount, "Calculating"); // Print formatted msg
 
     }
+
+    /**
+     * Precondition: None
+     * PostCondition: Prints the reversed String
+     * 
+     */
 
     public void reverseIt() {
         Utility.clearTerminal();
 
         System.out.println("Please give me a sentence or word and I will reverse it!");
         String word = s.nextLine();
-        String tempWord = "";
 
-        for (int i = word.length() - 1; i >= 0; i--) {
+        String tempWord = ""; // Stores reversed word
+
+        for (int i = word.length() - 1; i >= 0; i--) { // Left-to-right iteration of String via charAt()
             tempWord += word.charAt(i);
         }
         System.out.println(tempWord);
 
     }
 
+    /**
+     * Precondition: None
+     * PostCondition: Prints the reversed String
+     * 
+     * Sorts letters of string in alphebetical order
+     */
     public void encrypt() {
         Utility.clearTerminal();
 
@@ -100,20 +99,35 @@ public class ForLoops {
 
     }
 
+    /**
+     * Precondition: None
+     * PostCondition: Prints the reversed String
+     * 
+     * Prints checkerboard fo X0 Board
+     */
     public void showBoard() {
         Utility.clearTerminal();
-
+        System.out.println("Give me your desired dimensions");
         String[][] board = new String[10][10];
 
         // Every even row
         // Every odd col
         for (int row = 0; row < board.length; row++) {
-            for (int col = 0; col < board[row].length; col++) {
-                if (row % 2 == 0 && col % 2 != 0)
-                    board[row][col] = "X";
 
-                else
-                    board[row][col] = "O";
+            for (int col = 0; col < board[row].length; col++) {
+                if (row % 2 == 0)
+                    // if (row % 2 == 0 && col % 2 != 0)
+                    if (col % 2 == 0)
+                        board[row][col] = "X";
+                    else
+                        board[row][col] = "O";
+                else {
+                    if (col % 2 == 0)
+                        board[row][col] = "O";
+                    else
+                        board[row][col] = "X";
+                }
+
             }
             for (String s : board[row]) {
                 System.out.print(s + " ");
@@ -123,6 +137,12 @@ public class ForLoops {
 
     }
 
+    /**
+     * Precondition: None
+     * PostCondition: Prints the all prime between min & mix
+     * 
+     * Calc and print primes
+     */
     public void showPrimes() {
         System.out.println("Please give me a min value:");
         int min = s.nextInt();
@@ -149,56 +169,67 @@ public class ForLoops {
                         System.out.println("Prime Number: " + num);
 
                 }
-            }
+            } else
+                System.out.println("Prime Number: " + num);
+
         }
         System.out.println("Scroll up to see prime numbers");
         Utility.sleepThread(4);
 
     }
 
+    /**
+     * Precondition: None
+     * PostCondition: Int guessing game
+     */
     public void guessingGame() {
         Utility.clearTerminal();
 
         int money = 1000;
         int randomStart = ((int) (Math.random() * 1000) + 1);
-        int randomEnd = 0;
+        int randomEnd = (int) ((Math.random() * 1000) + randomStart);
         int chosenNum = 0;
         int betAmount = 0;
         int numGuesses = 0;
         boolean isPlaying = true;
 
         while (isPlaying) {
-            while (randomStart > randomEnd)
-                randomEnd = (int) ((Math.random() * 1000) + 1);
-            System.out.println("MAX VALUE: " + randomEnd);
+            randomStart = ((int) (Math.random() * 1000) + 1);
+            randomEnd = (int) ((Math.random() * 1000) + randomStart);
 
-            // Select num
             while (randomStart > chosenNum && randomEnd > chosenNum)
                 chosenNum = (int) (Math.random() * randomEnd);
 
             System.out.println("CHOSEN NUM: " + chosenNum);
 
             do {
-                System.out.println("Please Place Your Bet💸 ");
+                System.out.println("Please Place Your Bet💸, You start with $1000! ");
                 betAmount = s.nextInt();
-            } while (betAmount > money);
+            } while (betAmount > money && money > 0);
 
             System.out.println("The range is from " + randomStart + " - " + randomEnd);
 
+            System.out.println("You have 9 guesses!");
+            Utility.sleepThread(2);
             System.out.println("Please Give me your guess❔");
-            int guess = s.nextInt();
 
-            while (guess != chosenNum) {
+            int guess = s.nextInt();
+            int firstShortendRange = (randomStart + (randomEnd - chosenNum) / 2); // 1st shortend range (hint)
+            int secondShortendRange = (chosenNum + (randomEnd - chosenNum) / 2); // 2nd shortend range (hint)
+
+            while (guess != chosenNum && numGuesses != 9) {
 
                 if (numGuesses == 3) {
                     System.out.println("Here's a hint");
                     Utility.sleepThread(1);
-                    System.out.println("The number is greater than" + (randomStart + (randomEnd - chosenNum) / 2));
+                    System.out.println("The number is greater than " + firstShortendRange);
+
                 }
                 if (numGuesses == 6) {
                     System.out.println("Here's a hint");
-                    System.out.println("The number is lower than" + (chosenNum + (randomEnd - chosenNum) / 2));
+                    System.out.println("The number is lower than " + secondShortendRange);
                 }
+
                 if (guess > chosenNum) {
                     System.out.println("Your guess is too high!");
                     numGuesses++;
@@ -209,19 +240,36 @@ public class ForLoops {
 
                 guess = s.nextInt();
             }
-            money += betAmount;
-            System.out.println("That's Correct!");
-            System.out.println("Remaining Money: $" + money);
 
-            isPlaying = Utility.YayOrNay();
+            if (numGuesses == 9 && money - betAmount != 0) {
+                System.out.println("Sorry you lose, but still have money to play!");
+                money -= betAmount;
+                System.out.println("Remaining money $" + money);
 
-            Utility.clearTerminal();
+            } else if (money - betAmount == 0) {
+                System.out.println("Sorry you have lost the game!");
+                return;
+            } else {
+                money += betAmount;
+                System.out.println("That's Correct!");
+                System.out.println("Remaining Money: $" + money);
+            }
+
+            isPlaying = Utility.YayOrNay(); // Play again?
+
+            Utility.clearTerminal(); // Clear terminal for next game
 
         }
     }
 
+    /**
+     * Sorts an arr of nums and explains what each one is doing!
+     */
     public void yourOwn() {
-        System.out.println("NO CODE YET!");
+        System.out.println("This is a merge sort algorithm, sorts in descending order");
+        int nums[] = { 20, 35, -15, 7, 55, 1, -22 };
+        Utility.mergeSort(nums, 0, 7);
+
     }
 
     /**
@@ -241,6 +289,10 @@ public class ForLoops {
 
     }
 
+    /**
+     * Precondition: None
+     * PostCondition: Prints fancy board
+     */
     public void showFancyBoard() {
         Utility.clearTerminal();
 
@@ -251,18 +303,19 @@ public class ForLoops {
 
         // I used a doWhile b/c it doesn't get enough love X0X0 dowhile
         // jk lol it's just worse than while and for loops
+
+        // Ensure one character for each cell
         do {
             s.nextLine();
             System.out.println("Please type a single character on the keyboard");
-            firstChar = s.nextLine();
+            firstChar = s.nextLine().substring(0);
 
             System.out.println("Please type ANOTHER😊 single character on the keyboard");
-            secondChar = s.nextLine();
+            secondChar = s.nextLine().substring(0);
 
         } while (firstChar.length() > 1 || secondChar.length() > 1);
 
-        // Every even row
-        // Every odd col
+        // 2D Arr Iteration
         for (int row = 0; row < board.length; row++) {
             for (int col = 0; col < board[row].length; col++) {
                 if (col != 0 && row != 0 && dimensions % 2 != 0 && (col == 2 && row == 2)) {
@@ -283,17 +336,21 @@ public class ForLoops {
 
     }
 
+    /**
+     * Precondition: None
+     * Precondition: Prints reversed word
+     */
     public void reverseByWord() {
         Utility.clearTerminal();
 
         System.out.println("Give me a sentence!");
         String sentence = s.nextLine();
 
-        String[] words = sentence.split("\\s+");
+        String[] words = sentence.split("\\s+"); // splits on spaces
         for (int i = 0; i < words.length; i++) {
             words[i].toLowerCase();
             words[i] = Utility.reverseIt((words[i]));
-            words[i] += i + 1 == words.length ? "" : " ";
+            words[i] += i + 1 == words.length ? "" : " "; // If it at the end don't add space
         }
         for (String word : words) {
             System.out.print(word);
